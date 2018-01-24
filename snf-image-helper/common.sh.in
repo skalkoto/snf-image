@@ -1211,8 +1211,8 @@ encode_array() {
 }
 
 cleanup() {
-    # if something fails here, it shouldn't call cleanup again...
-    trap - EXIT
+    # We shouldn't fail here
+    set +e
 
     if [ ${#CLEANUP[*]} -gt 0 ]; then
         LAST_ELEMENT=$((${#CLEANUP[*]}-1))
@@ -1245,6 +1245,8 @@ cleanup() {
 task_cleanup() {
     local rc=$?
 
+    # We shouldn't fail here
+    set +e
     if [ $rc -eq 0 ]; then
        report_task_end
     else

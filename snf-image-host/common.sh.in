@@ -490,6 +490,8 @@ EOF
 }
 
 report_and_cleanup() {
+    # We should never fail here
+    set +e
     send_errors
     cleanup
 }
@@ -538,8 +540,8 @@ ignore_failure() {
 }
 
 cleanup() {
-    # if something fails here, it shouldn't call cleanup again...
-    trap - EXIT
+    # We shouldn't fail here
+    set +e
 
     if [ ${#CLEANUP[*]} -gt 0 ]; then
         LAST_ELEMENT=$((${#CLEANUP[*]}-1))
